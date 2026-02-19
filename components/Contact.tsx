@@ -54,7 +54,7 @@ export default function Contact() {
     <section id="contact" className="py-24 bg-[#0d1117] relative overflow-hidden">
       {/* Subtle background texture */}
       <div
-        className="absolute inset-0 bg-cover bg-center opacity-30"
+        className="absolute inset-0 bg-cover bg-center opacity-5"
         style={{ backgroundImage: "url('https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=1920&q=60')" }}
       />
       {/* Gold gradient glow top */}
@@ -264,30 +264,35 @@ export default function Contact() {
               <button
                 type="submit"
                 disabled={loading}
-                className="w-full relative overflow-hidden group bg-gold text-[#111827] font-sans font-bold text-sm tracking-[0.2em] uppercase py-4 mt-2 transition-all duration-300 hover:bg-gold-light disabled:opacity-60 disabled:cursor-not-allowed"
+                className="w-full relative overflow-hidden group bg-gold hover:bg-gold-light transition-colors duration-300 py-4 px-6 mt-2 disabled:opacity-60 disabled:cursor-not-allowed"
               >
-                <span className="relative z-10 flex items-center justify-center gap-3">
+                {/* Shimmer */}
+                <span className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-700 pointer-events-none" />
+                <span className="relative flex items-center justify-center gap-3">
                   {loading ? (
                     <>
-                      <svg className="w-4 h-4 animate-spin" fill="none" viewBox="0 0 24 24">
+                      <svg className="w-5 h-5 text-[#111827] animate-spin flex-shrink-0" fill="none" viewBox="0 0 24 24">
                         <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
                         <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
                       </svg>
-                      Sending...
+                      <span className="text-[#111827] font-sans font-bold text-sm uppercase tracking-widest">Sending...</span>
                     </>
                   ) : (
                     <>
-                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <svg className="w-5 h-5 text-[#111827] flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
                       </svg>
-                      Book a Private Viewing
+                      <span className="text-[#111827] font-sans font-bold text-sm uppercase tracking-widest">Book a Private Viewing</span>
+                      <svg className="w-4 h-4 text-[#111827] group-hover:translate-x-1 transition-transform duration-300 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                      </svg>
                     </>
                   )}
                 </span>
               </button>
 
-              <p className="text-white/30 text-[11px] text-center tracking-wider font-sans pt-1">
-                🔒 Private viewing by confirmed appointment only. Your details are safe with us.
+              <p className="text-white/30 text-[11px] text-center tracking-wide font-sans pt-2">
+                🔒 Private viewing by confirmed appointment only.
               </p>
             </form>
           </div>
