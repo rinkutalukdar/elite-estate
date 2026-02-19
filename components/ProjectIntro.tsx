@@ -20,7 +20,7 @@ export default function ProjectIntro() {
           <div>
             <div className="flex items-center gap-3 mb-6">
               <div className="h-px w-8 bg-gold" />
-              <span className="text-gold text-sm tracking-[0.35em] uppercase font-sans">
+              <span className="text-gold text-[10px] tracking-[0.35em] uppercase font-sans">
                 About the Project
               </span>
             </div>
@@ -39,13 +39,13 @@ export default function ProjectIntro() {
             </p>
 
             {/* Stats */}
-            <div className="grid grid-cols-3 gap-6 mt-10">
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-6 mt-10">
               {[
                 { num: "3.02", unit: "Acres", label: "Prime Land" },
                 { num: "192", unit: "Homes", label: "Exclusive Units" },
                 { num: "24", unit: "Floors", label: "Single Tower" },
               ].map((s) => (
-                <div key={s.label} className="border-l border-gold/30 pl-4">
+                <div key={s.label} className="border-l border-gold/30 pl-4 py-1">
                   <div className="font-serif text-3xl text-cream">
                     {s.num}
                     <span className="text-gold text-base ml-1">{s.unit}</span>
