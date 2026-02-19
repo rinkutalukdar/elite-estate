@@ -52,7 +52,7 @@ export default function Location() {
           <div className="lg:col-span-2">
             <div className="w-full h-96 border border-white/10 overflow-hidden relative">
               <iframe
-                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3886.3041874597!2d77.63!3d13.05!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bae173f84a4f4a1%3A0x1234!2sHennur%2C%20Bengaluru%2C%20Karnataka!5e0!3m2!1sen!2sin!4v1"
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d31093.983149277916!2d77.62138231963515!3d13.051712764530262!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bae172dcec4f1b7%3A0x523cf40021c3ff8a!2sHennur%20Gardens%2C%20Bengaluru%2C%20Karnataka!5e0!3m2!1sen!2sin!4v1771521202878!5m2!1sen!2sin"
                 width="100%"
                 height="100%"
                 style={{ border: 0, filter: "invert(90%) hue-rotate(180deg) saturate(0.7)" }}

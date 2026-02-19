@@ -61,13 +61,50 @@ export default function Hero() {
         </div>
 
         {/* CTAs */}
-        <div className="flex flex-col sm:flex-row gap-4 justify-center">
-          <a href="#contact" className="btn-gold animate-pulse-gold text-sm">
-            Book a Private Viewing
+        <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+
+          {/* Primary — Book Viewing */}
+          <a
+            href="#contact"
+            className="group relative flex items-center overflow-hidden bg-gold hover:bg-gold-light transition-colors duration-300 shadow-xl shadow-gold/25"
+          >
+            {/* Shimmer sweep */}
+            <span className="absolute inset-0 bg-gradient-to-r from-transparent via-white/25 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-700 pointer-events-none" />
+            {/* Icon box */}
+            <span className="flex items-center justify-center w-14 h-14 bg-[#a8822e]/40 border-r border-[#a8822e]/40 flex-shrink-0">
+              <svg className="w-5 h-5 text-[#111827]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+              </svg>
+            </span>
+            {/* Text */}
+            <span className="px-7 text-[#111827] font-sans font-bold text-sm tracking-[0.2em] uppercase whitespace-nowrap">
+              Book a Private Viewing
+            </span>
+            {/* Arrow */}
+            <span className="flex items-center justify-center w-12 h-14 bg-[#a8822e]/40 border-l border-[#a8822e]/40 flex-shrink-0 group-hover:bg-[#a8822e]/70 transition-colors duration-300">
+              <svg className="w-4 h-4 text-[#111827] group-hover:translate-x-1 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M17 8l4 4m0 0l-4 4m4-4H3" />
+              </svg>
+            </span>
           </a>
-          <a href="#contact" className="btn-outline-gold text-sm">
-            Download Brochure
+
+          {/* Secondary — Download Brochure */}
+          <a
+            href="#contact"
+            className="group relative flex items-center overflow-hidden border border-white/25 hover:border-gold/60 bg-white/5 hover:bg-white/10 backdrop-blur-sm transition-all duration-300"
+          >
+            {/* Icon box */}
+            <span className="flex items-center justify-center w-14 h-14 border-r border-white/10 group-hover:border-gold/30 flex-shrink-0 transition-colors duration-300">
+              <svg className="w-5 h-5 text-white/60 group-hover:text-gold transition-colors duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+              </svg>
+            </span>
+            {/* Text */}
+            <span className="px-7 text-white/80 group-hover:text-white font-sans font-semibold text-sm tracking-[0.2em] uppercase whitespace-nowrap transition-colors duration-300">
+              Download Brochure
+            </span>
           </a>
+
         </div>
 
         {/* Scroll Indicator */}

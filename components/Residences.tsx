@@ -52,7 +52,7 @@ export default function Residences() {
               }`}
             >
               {c.highlight && (
-                <div className="absolute top-4 right-4 z-20 bg-gold text-dark-DEFAULT text-[9px] tracking-widest uppercase px-3 py-1 font-sans font-semibold">
+                <div className="absolute top-4 right-4 z-20 bg-gold text-dark-DEFAULT text-sm tracking-widest uppercase px-3 py-1 font-sans font-semibold">
                   Most Popular
                 </div>
               )}
@@ -79,7 +79,7 @@ export default function Residences() {
                   {c.features.map((f) => (
                     <div key={f} className="flex items-center gap-2">
                       <div className="w-1 h-1 rounded-full bg-gold flex-shrink-0" />
-                      <span className="text-white/60 text-xs font-sans tracking-wide">{f}</span>
+                      <span className="text-white/60 text-sm font-sans tracking-wide">{f}</span>
                     </div>
                   ))}
                 </div>
