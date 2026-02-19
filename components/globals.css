@@ -1,0 +1,81 @@
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,600&family=Jost:wght@300;400;500;600&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --gold: #C8A14A;
+  --gold-light: #D4AF37;
+  --cream: #F5F1E8;
+  --dark: #111827;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: #111827;
+  color: #ffffff;
+  font-family: 'Jost', sans-serif;
+}
+
+@layer components {
+  .btn-gold {
+    @apply bg-gold text-dark-DEFAULT font-semibold px-8 py-3 tracking-widest uppercase text-sm transition-all duration-300 hover:bg-gold-light hover:shadow-lg hover:shadow-gold/30 active:scale-95;
+  }
+  
+  .btn-outline-gold {
+    @apply border border-gold text-gold font-semibold px-8 py-3 tracking-widest uppercase text-sm transition-all duration-300 hover:bg-gold hover:text-dark-DEFAULT;
+  }
+
+  .section-heading {
+    @apply font-serif text-4xl md:text-5xl lg:text-6xl font-light text-cream leading-tight;
+  }
+
+  .gold-divider {
+    @apply w-16 h-px bg-gold my-6;
+  }
+
+  .card-dark {
+    @apply bg-dark-card border border-white/5 p-8;
+  }
+}
+
+/* Floating animations */
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-8px); }
+}
+
+.float-anim {
+  animation: float 4s ease-in-out infinite;
+}
+
+/* Scroll reveal */
+.reveal {
+  opacity: 0;
+  transform: translateY(40px);
+  transition: opacity 0.8s ease, transform 0.8s ease;
+}
+
+.reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Gold shimmer */
+@keyframes shimmer {
+  0% { background-position: -200% center; }
+  100% { background-position: 200% center; }
+}
+
+.gold-shimmer {
+  background: linear-gradient(90deg, #C8A14A 0%, #F5D78E 50%, #C8A14A 100%);
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: shimmer 4s linear infinite;
+}
