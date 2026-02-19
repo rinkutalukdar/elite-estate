@@ -54,7 +54,7 @@ export default function Contact() {
     <section id="contact" className="py-24 bg-[#0d1117] relative overflow-hidden">
       {/* Subtle background texture */}
       <div
-        className="absolute inset-0 bg-cover bg-center opacity-5"
+        className="absolute inset-0 bg-cover bg-center opacity-30"
         style={{ backgroundImage: "url('https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=1920&q=60')" }}
       />
       {/* Gold gradient glow top */}
