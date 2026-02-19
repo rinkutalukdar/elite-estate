@@ -1,8 +1,6 @@
 import type { Metadata } from "next";
 import "./globals.css";
 
-import { Metadata } from "next";
-
 export const metadata: Metadata = {
   title: "Purva Hennur | Ultra-Luxury 3 & 4 BHK Residences in North Bangalore",
   description:
