@@ -1,3 +1,5 @@
+import Image from "next/image";
+
 export default function Masterplan() {
   const features = [
     {
@@ -45,7 +47,7 @@ export default function Masterplan() {
         <div className="text-center mb-16">
           <div className="flex items-center justify-center gap-3 mb-6">
             <div className="h-px w-8 bg-gold" />
-            <span className="text-gold text-sm tracking-[0.35em] uppercase font-sans">
+            <span className="text-gold text-[10px] tracking-[0.35em] uppercase font-sans">
               Masterplan
             </span>
             <div className="h-px w-8 bg-gold" />
@@ -75,18 +77,20 @@ export default function Masterplan() {
             ))}
           </div>
 
-          {/* Image */}
-          <div className="relative">
-            <img
-              src="https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?w=800&q=80"
+          {/* Image — fill requires a positioned, sized parent */}
+          <div className="relative w-full h-[340px] sm:h-[420px] lg:h-[500px]">
+            <Image
+              src="/static/master-plan.webp"
               alt="Masterplan visualization"
-              className="w-full h-[500px] object-cover"
+              fill
+              sizes="(max-width: 768px) 100vw, 50vw"
+              className="object-cover"
               loading="lazy"
             />
             <div className="absolute inset-0 border border-gold/10" />
             {/* Gold corner accents */}
-            <div className="absolute top-0 left-0 w-12 h-12 border-t-2 border-l-2 border-gold" />
-            <div className="absolute bottom-0 right-0 w-12 h-12 border-b-2 border-r-2 border-gold" />
+            <div className="absolute top-0 left-0 w-12 h-12 border-t-2 border-l-2 border-gold z-10" />
+            <div className="absolute bottom-0 right-0 w-12 h-12 border-b-2 border-r-2 border-gold z-10" />
           </div>
         </div>
       </div>

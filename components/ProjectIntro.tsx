@@ -1,19 +1,19 @@
+import Image from "next/image";
 export default function ProjectIntro() {
   return (
     <section id="overview" className="py-28 bg-dark-DEFAULT">
       <div className="max-w-7xl mx-auto px-6">
         <div className="grid lg:grid-cols-2 gap-16 items-center">
           {/* Image */}
-          <div className="relative">
-            <div className="absolute -top-4 -left-4 w-full h-full border border-gold/20" />
-            <img
-              src="https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=800&q=80"
-              alt="Purva Hennur Interior"
-              className="w-full h-[500px] object-cover relative z-10"
-              loading="lazy"
-            />
-            {/* Gold accent bar */}
-            <div className="absolute bottom-0 left-0 right-0 h-1 bg-gold-gradient z-20" />
+          <div className="relative w-full h-[340px] sm:h-[420px] lg:h-[500px] z-10 overflow-hidden">
+    <Image
+                src="/static/intro.webp"
+                alt="Purva Hennur Interior"
+                fill
+                sizes="(max-width: 768px) 100vw, 50vw"
+                className="object-cover"
+                loading="lazy"
+              />
           </div>
 
           {/* Content */}

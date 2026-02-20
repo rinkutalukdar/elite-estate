@@ -55,7 +55,7 @@ export default function Contact() {
       {/* Subtle background texture */}
       <div
         className="absolute inset-0 bg-cover bg-center opacity-30"
-        style={{ backgroundImage: "url('https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=1920&q=60')" }}
+        style={{ backgroundImage: "url('/static/contact.webp')" }}
       />
       {/* Gold gradient glow top */}
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-2/3 h-px bg-gradient-to-r from-transparent via-gold/50 to-transparent" />
