@@ -120,7 +120,7 @@ export async function POST(req: NextRequest) {
       await transporter.sendMail({
         from: `"Purva Hennur by EliteEstateExpert" <${process.env.SMTP_USER}>`,
         to: email,
-        subject: "Thank You — Your Purva Hennur Enquiry",
+        subject: "Thank You - Your Purva Hennur Enquiry",
         html: leadHtml,
       });
     }
