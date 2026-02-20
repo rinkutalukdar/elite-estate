@@ -6,14 +6,14 @@ export default function ProjectIntro() {
         <div className="grid lg:grid-cols-2 gap-16 items-center">
           {/* Image */}
           <div className="relative w-full h-[340px] sm:h-[420px] lg:h-[500px] z-10 overflow-hidden">
-    <Image
+            <Image
                 src="/static/intro.webp"
                 alt="Purva Hennur Interior"
                 fill
                 sizes="(max-width: 768px) 100vw, 50vw"
                 className="object-cover"
                 loading="lazy"
-              />
+            />
           </div>
 
           {/* Content */}

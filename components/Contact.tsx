@@ -1,6 +1,7 @@
 "use client";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import Image from "next/image";
 
 export default function Contact() {
   const router = useRouter();
@@ -14,6 +15,7 @@ export default function Contact() {
     timeline: "",
   });
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
@@ -24,17 +26,40 @@ export default function Contact() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
-    if (typeof window !== "undefined" && (window as any).gtag) {
-      (window as any).gtag("event", "conversion", {
-        send_to: "AW-CONVERSION_ID/CONVERSION_LABEL",
-        event_category: "Lead",
-        event_label: "Contact Form",
+    setError("");
+
+    try {
+      const response = await fetch("/api/mail", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(form),
       });
-      (window as any).gtag("event", "generate_lead", { currency: "INR", value: 1 });
+
+      if (!response.ok) {
+        const data = await response.json();
+        throw new Error(data.error || "Failed to send message");
+      }
+
+      // GA4 conversion tracking — only fires on success
+      if (typeof window !== "undefined" && (window as any).gtag) {
+        (window as any).gtag("event", "conversion", {
+          send_to: `${process.env.NEXT_PUBLIC_AW_CONVERSION_ID}/${process.env.NEXT_PUBLIC_AW_CONVERSION_LABEL}`,
+          event_category: "Lead",
+          event_label: "Contact Form",
+        });
+        (window as any).gtag("event", "generate_lead", {
+          currency: "INR",
+          value: 1,
+        });
+      }
+
+      router.push("/thank-you");
+    } catch (err: any) {
+      console.error("Form submission error:", err);
+      setError(err.message || "Something went wrong. Please try again.");
+    } finally {
+      setLoading(false);
     }
-    await new Promise((r) => setTimeout(r, 1000));
-    setLoading(false);
-    router.push("/thank-you");
   };
 
   const inputClass =
@@ -52,17 +77,16 @@ export default function Contact() {
 
   return (
     <section id="contact" className="py-24 bg-[#0d1117] relative overflow-hidden">
-      {/* Subtle background texture */}
+      {/* Background texture */}
       <div
         className="absolute inset-0 bg-cover bg-center opacity-30"
         style={{ backgroundImage: "url('/static/contact.webp')" }}
       />
-      {/* Gold gradient glow top */}
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-2/3 h-px bg-gradient-to-r from-transparent via-gold/50 to-transparent" />
 
       <div className="max-w-6xl mx-auto px-6 relative z-10">
 
-        {/* Section Header */}
+        {/* Header */}
         <div className="text-center mb-14">
           <div className="flex items-center justify-center gap-4 mb-5">
             <div className="h-px w-12 bg-gold/60" />
@@ -82,22 +106,22 @@ export default function Contact() {
 
         <div className="grid lg:grid-cols-5 gap-10 items-start">
 
-          {/* LEFT — Project info (2/5 width) */}
+          {/* LEFT */}
           <div className="lg:col-span-2 space-y-8">
-            {/* Image */}
-            <div className="relative overflow-hidden">
-              <img
-                src="https://images.unsplash.com/photo-1499916078039-922301b0eb9b?w=800&q=80"
+            <div className="relative w-full h-64 overflow-hidden">
+              <Image
+                src="/static/contact.webp"
                 alt="Balcony view"
-                className="w-full h-64 object-cover"
+                fill
+                sizes="(max-width: 768px) 100vw, 40vw"
+                className="object-cover"
                 loading="lazy"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-[#0d1117] via-transparent to-transparent" />
-              <div className="absolute top-0 left-0 w-10 h-10 border-t-2 border-l-2 border-gold" />
-              <div className="absolute bottom-0 right-0 w-10 h-10 border-b-2 border-r-2 border-gold" />
+              <div className="absolute top-0 left-0 w-10 h-10 border-t-2 border-l-2 border-gold z-10" />
+              <div className="absolute bottom-0 right-0 w-10 h-10 border-b-2 border-r-2 border-gold z-10" />
             </div>
 
-            {/* Project Details */}
             <div className="bg-[#161c2a] border border-white/8 p-6 space-y-4">
               <h4 className="font-serif text-lg text-white mb-5 pb-3 border-b border-white/10">
                 Project Details
@@ -112,7 +136,6 @@ export default function Contact() {
               ))}
             </div>
 
-            {/* Call CTA */}
             <a
               href="tel:+919999999999"
               className="flex items-center gap-4 bg-[#161c2a] border border-gold/20 hover:border-gold/50 p-5 transition-all duration-300 group"
@@ -129,9 +152,8 @@ export default function Contact() {
             </a>
           </div>
 
-          {/* RIGHT — Form (3/5 width) */}
+          {/* RIGHT — Form */}
           <div className="lg:col-span-3 bg-[#161c2a] border border-white/8 p-8">
-            {/* Form header */}
             <div className="flex items-center gap-3 mb-7 pb-6 border-b border-white/8">
               <div className="w-1 h-8 bg-gold" />
               <div>
@@ -141,57 +163,26 @@ export default function Contact() {
             </div>
 
             <form onSubmit={handleSubmit} className="space-y-5">
-              {/* Name + Phone — side by side on md+ */}
               <div className="grid sm:grid-cols-2 gap-4">
                 <div>
                   <label className={labelClass}>Full Name *</label>
-                  <input
-                    type="text"
-                    name="name"
-                    required
-                    value={form.name}
-                    onChange={handleChange}
-                    placeholder="Your full name"
-                    className={inputClass}
-                  />
+                  <input type="text" name="name" required value={form.name} onChange={handleChange} placeholder="Your full name" className={inputClass} />
                 </div>
                 <div>
                   <label className={labelClass}>Phone Number *</label>
-                  <input
-                    type="tel"
-                    name="phone"
-                    required
-                    value={form.phone}
-                    onChange={handleChange}
-                    placeholder="+91 XXXXX XXXXX"
-                    className={inputClass}
-                  />
+                  <input type="tel" name="phone" required value={form.phone} onChange={handleChange} placeholder="+91 XXXXX XXXXX" className={inputClass} />
                 </div>
               </div>
 
-              {/* Email */}
               <div>
                 <label className={labelClass}>Email Address</label>
-                <input
-                  type="email"
-                  name="email"
-                  value={form.email}
-                  onChange={handleChange}
-                  placeholder="your@email.com"
-                  className={inputClass}
-                />
+                <input type="email" name="email" value={form.email} onChange={handleChange} placeholder="your@email.com" className={inputClass} />
               </div>
 
-              {/* Config + Budget — side by side */}
               <div className="grid sm:grid-cols-2 gap-4">
                 <div>
                   <label className={labelClass}>Configuration</label>
-                  <select
-                    name="config"
-                    value={form.config}
-                    onChange={handleChange}
-                    className={inputClass}
-                  >
+                  <select name="config" value={form.config} onChange={handleChange} className={inputClass}>
                     <option value="" className="bg-[#1e2433]">Select Configuration</option>
                     <option value="3bhk" className="bg-[#1e2433]">3 BHK (1950–2010 Sqft)</option>
                     <option value="3bhk-maid" className="bg-[#1e2433]">3 BHK + Maid (2400 Sqft)</option>
@@ -200,12 +191,7 @@ export default function Contact() {
                 </div>
                 <div>
                   <label className={labelClass}>Budget Range</label>
-                  <select
-                    name="budget"
-                    value={form.budget}
-                    onChange={handleChange}
-                    className={inputClass}
-                  >
+                  <select name="budget" value={form.budget} onChange={handleChange} className={inputClass}>
                     <option value="" className="bg-[#1e2433]">Select Budget</option>
                     <option value="3-3.5" className="bg-[#1e2433]">₹3 – 3.5 Crores</option>
                     <option value="3.5-4" className="bg-[#1e2433]">₹3.5 – 4 Crores</option>
@@ -214,59 +200,43 @@ export default function Contact() {
                 </div>
               </div>
 
-              {/* Buying For — toggle buttons */}
               <div>
                 <label className={labelClass}>Buying For</label>
                 <div className="grid grid-cols-2 gap-3">
                   {["Self Use", "Investment"].map((opt) => (
-                    <button
-                      key={opt}
-                      type="button"
-                      onClick={() => setForm({ ...form, buyingFor: opt })}
-                      className={`py-3 text-sm font-sans tracking-wider uppercase border transition-all duration-200 ${
-                        form.buyingFor === opt
-                          ? "bg-gold border-gold text-[#111827] font-semibold"
-                          : "bg-transparent border-white/15 text-white/60 hover:border-gold/40 hover:text-white/80"
-                      }`}
-                    >
+                    <button key={opt} type="button" onClick={() => setForm({ ...form, buyingFor: opt })}
+                      className={`py-3 text-sm font-sans tracking-wider uppercase border transition-all duration-200 ${form.buyingFor === opt ? "bg-gold border-gold text-[#111827] font-semibold" : "bg-transparent border-white/15 text-white/60 hover:border-gold/40 hover:text-white/80"}`}>
                       {opt}
                     </button>
                   ))}
                 </div>
               </div>
 
-              {/* Timeline — 3 toggle buttons */}
               <div>
                 <label className={labelClass}>Purchase Timeline</label>
                 <div className="grid grid-cols-3 gap-3">
-                  {[
-                    { label: "Immediate", value: "immediate" },
-                    { label: "3–6 Months", value: "3-6months" },
-                    { label: "6+ Months", value: "6+months" },
-                  ].map((opt) => (
-                    <button
-                      key={opt.value}
-                      type="button"
-                      onClick={() => setForm({ ...form, timeline: opt.value })}
-                      className={`py-3 text-xs font-sans tracking-wider uppercase border transition-all duration-200 ${
-                        form.timeline === opt.value
-                          ? "bg-gold border-gold text-[#111827] font-semibold"
-                          : "bg-transparent border-white/15 text-white/60 hover:border-gold/40 hover:text-white/80"
-                      }`}
-                    >
+                  {[{ label: "Immediate", value: "immediate" }, { label: "3–6 Months", value: "3-6months" }, { label: "6+ Months", value: "6+months" }].map((opt) => (
+                    <button key={opt.value} type="button" onClick={() => setForm({ ...form, timeline: opt.value })}
+                      className={`py-3 text-xs font-sans tracking-wider uppercase border transition-all duration-200 ${form.timeline === opt.value ? "bg-gold border-gold text-[#111827] font-semibold" : "bg-transparent border-white/15 text-white/60 hover:border-gold/40 hover:text-white/80"}`}>
                       {opt.label}
                     </button>
                   ))}
                 </div>
               </div>
 
+              {/* Error message */}
+              {error && (
+                <div className="flex items-center gap-2 bg-red-500/10 border border-red-500/30 px-4 py-3">
+                  <svg className="w-4 h-4 text-red-400 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                  </svg>
+                  <p className="text-red-400 text-xs font-sans">{error}</p>
+                </div>
+              )}
+
               {/* Submit */}
-              <button
-                type="submit"
-                disabled={loading}
-                className="w-full relative overflow-hidden group bg-gold hover:bg-gold-light transition-colors duration-300 py-4 px-6 mt-2 disabled:opacity-60 disabled:cursor-not-allowed"
-              >
-                {/* Shimmer */}
+              <button type="submit" disabled={loading}
+                className="w-full relative overflow-hidden group bg-gold hover:bg-gold-light transition-colors duration-300 py-4 px-6 mt-2 disabled:opacity-60 disabled:cursor-not-allowed">
                 <span className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-700 pointer-events-none" />
                 <span className="relative flex items-center justify-center gap-3">
                   {loading ? (
@@ -299,7 +269,6 @@ export default function Contact() {
         </div>
       </div>
 
-      {/* Bottom gold line */}
       <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-2/3 h-px bg-gradient-to-r from-transparent via-gold/40 to-transparent" />
     </section>
   );
