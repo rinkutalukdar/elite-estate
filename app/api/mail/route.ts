@@ -45,64 +45,50 @@ export async function POST(req: NextRequest) {
 
     // HTML email to the sales team
     const teamHtml = `
-      <div style="font-family: Georgia, serif; max-width: 600px; margin: 0 auto; background: #111827; color: #ffffff; padding: 40px; border: 1px solid #C8A14A;">
-        <div style="border-bottom: 2px solid #C8A14A; padding-bottom: 20px; margin-bottom: 30px;">
-          <h1 style="color: #C8A14A; font-size: 24px; margin: 0;">New Lead — Purva Hennur</h1>
-          <p style="color: #999; font-size: 12px; margin: 6px 0 0;">Submitted via eliteestateexpert.com</p>
+      <div style="font-family: sans-serif; max-width: 500px; margin: 0 auto; padding: 20px;">
+        <h2 style="color: #C8A14A; margin: 0 0 16px;">🏠 New Lead: Purva Hennur</h2>
+        
+        <p><strong>Name:</strong> ${name}</p>
+        <p><strong>Phone:</strong> ${phone}</p>
+        <p><strong>Email:</strong> ${email || '—'}</p>
+        <p><strong>Config:</strong> ${configLabels[config] || config || '—'}</p>
+        <p><strong>Budget:</strong> ${budgetLabels[budget] || budget || '—'}</p>
+        <p><strong>Timeline:</strong> ${timelineLabels[timeline] || timeline || '—'}</p>
+        
+        <div style="margin-top: 24px; padding: 12px; background: #f5f5f5; border-left: 3px solid #C8A14A;">
+          <p style="margin: 0; font-size: 13px; color: #555;">
+            ⏰ Please contact within 2 hours for best conversion.
+          </p>
         </div>
-
-        <table style="width: 100%; border-collapse: collapse;">
-          ${[
-            ["Full Name", name],
-            ["Phone", phone],
-            ["Email", email || "—"],
-            ["Configuration", configLabels[config] || config || "—"],
-            ["Budget", budgetLabels[budget] || budget || "—"],
-            ["Buying For", buyingFor || "—"],
-            ["Timeline", timelineLabels[timeline] || timeline || "—"],
-          ]
-            .map(
-              ([label, value]) => `
-            <tr>
-              <td style="padding: 10px 0; color: #C8A14A; font-size: 11px; letter-spacing: 2px; text-transform: uppercase; width: 140px; vertical-align: top;">${label}</td>
-              <td style="padding: 10px 0; color: #ffffff; font-size: 14px; border-bottom: 1px solid #222;">${value}</td>
-            </tr>`
-            )
-            .join("")}
-        </table>
-
-        <div style="margin-top: 30px; padding: 16px; background: #1C1C1C; border-left: 3px solid #C8A14A;">
-          <p style="margin: 0; color: #999; font-size: 12px;">Please contact this lead within 2 hours for best conversion.</p>
-        </div>
+        
+        <p style="margin-top: 20px; font-size: 12px; color: #888;">
+          Source: eliteestateexpert.com
+        </p>
       </div>
     `;
 
     // Auto-reply HTML to the lead
     const leadHtml = `
-      <div style="font-family: Georgia, serif; max-width: 600px; margin: 0 auto; background: #111827; color: #ffffff; padding: 40px; border: 1px solid #C8A14A;">
-        <div style="text-align: center; border-bottom: 1px solid #333; padding-bottom: 24px; margin-bottom: 30px;">
-          <h1 style="color: #C8A14A; font-size: 28px; font-weight: 300; letter-spacing: 4px; margin: 0;">PURVA HENNUR</h1>
-          <p style="color: #999; font-size: 11px; letter-spacing: 3px; text-transform: uppercase; margin: 8px 0 0;">North Bangalore</p>
+      <div style="font-family: sans-serif; max-width: 500px; margin: 0 auto; padding: 20px;">
+        <h2 style="color: #C8A14A; margin: 0 0 16px;">PURVA HENNUR</h2>
+        
+        <p>Dear ${name},</p>
+        
+        <p>Thank you for your interest in <strong>Purva Hennur</strong>. Our sales advisor will contact you within <strong>2 hours</strong>.</p>
+        
+        <div style="margin: 20px 0; padding: 12px; background: #f9f9f9; border: 1px solid #eee;">
+          <p style="margin: 4px 0;"><strong>Your Enquiry:</strong></p>
+          <p style="margin: 4px 0; font-size: 14px;">• ${configLabels[config] || config}</p>
+          <p style="margin: 4px 0; font-size: 14px;">• Budget: ${budgetLabels[budget] || budget}</p>
+          <p style="margin: 4px 0; font-size: 14px;">• Timeline: ${timelineLabels[timeline] || timeline}</p>
         </div>
-
-        <p style="color: #ffffff; font-size: 18px; font-weight: 300;">Dear ${name},</p>
-        <p style="color: #cccccc; line-height: 1.8; font-size: 14px;">
-          Thank you for your interest in <strong style="color: #C8A14A;">Purva Hennur</strong>. We have received your enquiry and our dedicated sales advisor will contact you within <strong style="color: #ffffff;">2 hours</strong>.
+        
+        <p style="margin-top: 24px; font-size: 14px;">
+          For immediate help: <a href="tel:+919999999999" style="color: #C8A14A;">+91 99999 99999</a>
         </p>
-        <p style="color: #cccccc; line-height: 1.8; font-size: 14px;">
-          Your private viewing will be arranged by confirmed appointment only, ensuring an exclusive and personalised experience.
-        </p>
-
-        <div style="margin: 30px 0; padding: 20px; background: #1C1C1C; border: 1px solid #333;">
-          <p style="margin: 0 0 6px; color: #C8A14A; font-size: 11px; letter-spacing: 2px; text-transform: uppercase;">Your Enquiry Summary</p>
-          <p style="margin: 4px 0; color: #ccc; font-size: 13px;">Configuration: <span style="color: #fff;">${configLabels[config] || "—"}</span></p>
-          <p style="margin: 4px 0; color: #ccc; font-size: 13px;">Budget: <span style="color: #fff;">${budgetLabels[budget] || "—"}</span></p>
-          <p style="margin: 4px 0; color: #ccc; font-size: 13px;">Timeline: <span style="color: #fff;">${timelineLabels[timeline] || "—"}</span></p>
-        </div>
-
-        <p style="color: #999; font-size: 12px; margin-top: 30px; padding-top: 20px; border-top: 1px solid #222;">
-          For immediate assistance, call us at <a href="tel:+919999999999" style="color: #C8A14A;">+91 99999 99999</a><br/>
-          © 2025 EliteEstateExpert · Premium Realty
+        
+        <p style="margin-top: 30px; font-size: 12px; color: #888; border-top: 1px solid #eee; padding-top: 16px;">
+          © 2025 EliteEstateExpert
         </p>
       </div>
     `;
